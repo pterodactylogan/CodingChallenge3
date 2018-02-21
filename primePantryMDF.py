@@ -1,6 +1,7 @@
 # File: primepantryMDF.py
 # Challenge 3: Prime Pantry v2
 # Authors: Maddy Fox, Miriam Hodas, Logan Swanson
+# Date Due: February 22, 2018
 
 def prime_pantry(itemDict, nItems, totalWt):
     """Given a dictionary of items and their prices, size of that dictionary,
@@ -45,9 +46,9 @@ def get_items(itemDict, knownResults, n):
     return lst
 
 def main():
-  items = {"pepsi":55,"detergent":30, "chips":25, "cereal":15}
-  wt = 100
-  #print(prime_pantry(sys.argv[0], sys.argv[1], sys.argv[2]))
-  print(prime_pantry(items, len(items), wt))
+    items = ast.literal_eval(sys.argv[1])
+    nItems = sys.argv[2]
+    total = sys.argv[3]
+    print(prime_pantry(items, nItems, total))
   
 main()
