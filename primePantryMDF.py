@@ -7,6 +7,7 @@ def prime_pantry(itemDict, nItems, totalWt):
     and a weight value, returns a list of items that adds up to that weight if
     possible or a message notifying the user that the weight isn't achievable"""
     knownResults = [ "" for e in range(totalWt+1)]
+    best_weight=-1
 
     # Loop over all weight values, in order
     for wt in range(1, totalWt+1):
@@ -20,14 +21,16 @@ def prime_pantry(itemDict, nItems, totalWt):
           # Only update if no items repeated
           if item not in get_items(itemDict, knownResults, wt-itemDict[item]):
             knownResults[wt] = item
+            best_weight=wt
             
             # Once one solution found, don't need to find others
             break
-
-    if knownResults[totalWt]:
-        return get_items(itemDict, knownResults, totalWt)
-    else:
-        return "No combination of items adds up to ", totalWt
+        
+    result=knownResults[best_weight]
+    if not result=="": return result
+    else: 
+        print("no possible results")
+        return []
 
 def get_items(itemDict, knownResults, n):
     """Given a weight, returns a list of the items that add up to the weight"""
