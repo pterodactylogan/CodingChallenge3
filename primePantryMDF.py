@@ -6,25 +6,36 @@
 import sys
 import ast
 
+def validate(func):
+    """Checks validity of dictionary, number of items, and goal weight inputs"""
+    def validate_and_call(*args, **kwargs):
+        itemDict = args[0]
+        nItems = args[1]
+        totalWt = args[2]
+        
+        if type(itemDict)!=dict: raise TypeError
+        if type(nItems)!=int: raise TypeError
+        if type(totalWt)!=int: raise TypeError
+        if nItems!=len(itemDict): raise ValueError
+    
+        for key in itemDict:
+            if type(key)!=str: raise TypeError
+            if key=="": raise ValueError
+            if type(itemDict[key])!=int: raise TypeError
+            if itemDict[key]<0: raise ValueError
+    
+        return func(*args, **kwargs)
+    
+    return validate_and_call
+
+@validate
 def prime_pantry(itemDict, nItems, totalWt):
     """Given a dictionary of items and their prices, size of that dictionary,
     and a weight value, returns a list of items that adds up to that weight if
     possible or a message notifying the user that the weight isn't achievable"""
-    
-    #check validity of input
-    if type(itemDict)!=dict: raise TypeError
-    if type(nItems)!=int: raise TypeError
-    if type(totalWt)!=int: raise TypeError
-    if nItems!=len(itemDict): raise ValueError
-    
-    for key in itemDict:
-        if type(key)!=str: raise TypeError
-        if key=="": raise ValueError
-        if type(itemDict[key])!=int: raise TypeError
-        if itemDict[key]<0: raise ValueError
-    
+
     knownResults = [ "" for e in range(totalWt+1)]
-    best_weight=-1
+    bestWeight=-1
 
     # Loop over all weight values, in order
     for wt in range(1, totalWt+1):
@@ -38,19 +49,21 @@ def prime_pantry(itemDict, nItems, totalWt):
           # Only update if no items repeated
           if item not in get_items(itemDict, knownResults, wt-itemDict[item]):
             knownResults[wt] = item
-            best_weight=wt
+            bestWeight = wt
             
             # Once one solution found, don't need to find others
             break
         
-    result=get_items(itemDict,knownResults,best_weight)
-    if not result=="": 
-        print("Items adding to "+str(best_weight))
+    result = get_items(itemDict, knownResults, bestWeight)
+    if bestWeight == totalWt: 
+        return result
+    elif bestWeight > -1:
+        print("We can't fill your box exactly, but we can fill a box of weight", bestWeight)
         return result
     else: 
-        print()
+        print("All your items weigh more than the max weight of your box. You can't get anything.")
         return []
-
+    
 def get_items(itemDict, knownResults, n):
     """Given a weight, returns a list of the items that add up to the weight"""
     lst = []
