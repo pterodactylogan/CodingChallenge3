@@ -3,6 +3,9 @@
 # Authors: Maddy Fox, Miriam Hodas, Logan Swanson
 # Date Due: February 22, 2018
 
+import sys
+import ast
+
 def prime_pantry(itemDict, nItems, totalWt):
     """Given a dictionary of items and their prices, size of that dictionary,
     and a weight value, returns a list of items that adds up to that weight if
@@ -60,8 +63,8 @@ def get_items(itemDict, knownResults, n):
 
 def main():
     items = ast.literal_eval(sys.argv[1])
-    nItems = sys.argv[2]
-    total = sys.argv[3]
+    nItems = eval(sys.argv[2])
+    total = eval(sys.argv[3])
     print(prime_pantry(items, nItems, total))
   
 main()
