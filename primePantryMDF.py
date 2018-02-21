@@ -26,10 +26,12 @@ def prime_pantry(itemDict, nItems, totalWt):
             # Once one solution found, don't need to find others
             break
         
-    result=knownResults[best_weight]
-    if not result=="": return result
+    result=get_items(itemDict,knownResults,best_weight)
+    if not result=="": 
+        print("Items adding to "+str(best_weight))
+        return result
     else: 
-        print("no possible results")
+        print()
         return []
 
 def get_items(itemDict, knownResults, n):
