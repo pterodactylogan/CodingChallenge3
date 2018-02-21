@@ -7,6 +7,19 @@ def prime_pantry(itemDict, nItems, totalWt):
     """Given a dictionary of items and their prices, size of that dictionary,
     and a weight value, returns a list of items that adds up to that weight if
     possible or a message notifying the user that the weight isn't achievable"""
+    
+    #check validity of input
+    if type(itemDict)!=dict: raise TypeError
+    if type(nItems)!=int: raise TypeError
+    if type(totalWt)!=int: raise TypeError
+    if nItems!=len(itemDict): raise ValueError
+    
+    for key in itemDict:
+        if type(key)!=str: raise TypeError
+        if key=="": raise ValueError
+        if type(itemDict[key])!=int: raise TypeError
+        if itemDict[key]<0: raise ValueError
+    
     knownResults = [ "" for e in range(totalWt+1)]
     best_weight=-1
 
